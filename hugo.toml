@@ -1,0 +1,31 @@
+baseURL = "https://go-ruby-abbrev.github.io/"
+title = "go-ruby-abbrev"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[[params.phases]]
+  name = "Unambiguous abbreviations"
+  status = "ready"
+  blurb = "Given a set of words, every prefix that identifies exactly one word plus each full word; a prefix shared by two or more words never appears, and each full word always maps to itself."
+
+[[params.phases]]
+  name = "Optional prefix filter"
+  status = "ready"
+  blurb = "`Abbrev(words, prefix)` keeps only words starting with `prefix`. The prefix is a **literal string, not a pattern** — MRI anchors it as `/\\A<quoted>/` — so `Abbrev([\"a.b\", \"axb\"], \"a.\")` matches only `\"a.b\"`."
+
+[[params.phases]]
+  name = "Both Ruby entry points"
+  status = "ready"
+  blurb = "The idiomatic Go shape of both `Abbrev.abbrev(words[, prefix])` and the `Array#abbrev` core extension (`words.abbrev`), collapsed into a single `Abbrev(words, prefix...)` with a variadic optional prefix."
+
+[[params.phases]]
+  name = "MRI edge cases"
+  status = "ready"
+  blurb = "Empty words contribute no prefixes but still map to themselves; duplicate words collapse; multibyte words split on **characters**, not bytes, matching Ruby's `String#[]` — so `Abbrev([\"café\", \"cane\"])` includes `\"caf\"`."
+
+[[params.phases]]
+  name = "Differential oracle & coverage"
+  status = "ready"
+  blurb = "Deterministic, runtime-free cases drive coverage to 100%, plus a differential **oracle** that runs the same inputs through the live `ruby` binary (`Abbrev.abbrev`) and asserts byte-identical maps; gofmt + go vet clean, green across six 64-bit arches and three OSes."
